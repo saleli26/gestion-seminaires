@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/secretaire/dashboard', [SecretaireController::class, 'index'])->name('secretaire.dashboard');
     Route::post('/secretaire/valider/{id}', [SecretaireController::class, 'valider'])->name('secretaire.valider');
     Route::post('/secretaire/rejeter/{id}', [SecretaireController::class, 'rejeter'])->name('secretaire.rejeter');
+
 });
 
 

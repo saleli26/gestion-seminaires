@@ -36,8 +36,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('presentateur.dashboard');
         } elseif (auth()->user()->role === 'etudiant') {
             return redirect()->route('etudiant.dashboard');
-        } elseif (auth()->user()->role === 'secretariat') {
-            return redirect()->route('secretariat.dashboard');
+        } elseif (auth()->user()->role === 'secretaire') {
+            return redirect()->route('secretaire.dashboard');
         } else {
             return redirect()->intended('/');
         }
