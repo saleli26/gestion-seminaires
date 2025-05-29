@@ -22,20 +22,32 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
 {
-    $request->authenticate();
-    $request->session()->regenerate();
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
 
-    $user = Auth::user();
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
 
-    return match ($user->role) {
-        'etudiant' => redirect()->route('etudiant.dashboard'),
-        'presentateur' => redirect()->route('presentateur.dashboard'),
-        'secretaire' => redirect()->route('secretaire.dashboard'),
-        default => abort(403),
-    };
+        if (auth()->user()->role === 'presentateur') {
+            return redirect()->route('presentateur.dashboard');
+        } elseif (auth()->user()->role === 'etudiant') {
+            return redirect()->route('etudiant.dashboard');
+        } elseif (auth()->user()->role === 'secretariat') {
+            return redirect()->route('secretariat.dashboard');
+        } else {
+            return redirect()->intended('/');
+        }
+    }
+
+    return back()->withErrors([
+        'email' => 'Les informations d\'identification ne correspondent pas.',
+    ]);
 }
+
 
     /**
      * Destroy an authenticated session.

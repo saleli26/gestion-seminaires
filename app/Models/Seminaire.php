@@ -16,11 +16,10 @@ class Seminaire extends Model
         'statut',
         'user_id',
     ];
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 
-    // Si tu as des relations, tu peux les définir ici
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
 }
 

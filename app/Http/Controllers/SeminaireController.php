@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Seminaire;
 
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ class SeminaireController extends Controller
 
 public function create()
 {
-    return view('seminaires.create');
+    return view('seminaire.create');
 }
 
 public function store(Request $request)
@@ -71,4 +72,12 @@ public function store(Request $request)
     {
         //
     }
+    public function dashboardPresentateur()
+{
+    $seminaires = Seminaire::where('user_id', auth()->id())->get();
+
+    return view('presentateur.dashboard', compact('seminaires'));
+}
+
+
 }

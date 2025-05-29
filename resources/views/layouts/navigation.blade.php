@@ -98,6 +98,4 @@
         </div>
     </div>
 </nav>
-@auth
-    <li><a href="{{ route('seminaires.create') }}">Demander un séminaire</a></li>
-@endauth
+
