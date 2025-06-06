@@ -1,47 +1,60 @@
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <div class="min-h-screen bg-cover bg-center flex items-center justify-center" style="background-image: url('{{ asset('images/bg-login.jpg') }}');">
+        <div class="bg-white bg-opacity-80 backdrop-blur-sm p-8 rounded-xl shadow-xl max-w-md w-full">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Connexion</h2>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+            @if (session('status'))
+                <div class="mb-4 font-medium text-sm text-green-600">
+                    {{ session('status') }}
+                </div>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+
+                <!-- Email -->
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                    <input id="email" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300" type="email" name="email" value="{{ old('email') }}" required autofocus>
+                </div>
+
+                <!-- Password avec l'œil -->
+                <div class="mb-6 relative">
+                    <label for="password" class="block text-gray-700 font-medium mb-2">Mot de passe</label>
+                    <input id="password" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300 pr-10" type="password" name="password" required>
+
+                    <!-- Icône œil -->
+                    <span onclick="togglePassword()" class="absolute right-3 top-10 cursor-pointer text-gray-600 hover:text-gray-900">
+                        👁️
+                    </span>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="block mb-4">
+                    <label for="remember_me" class="inline-flex items-center">
+                        <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                        <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <a class="underline text-sm text-blue-600 hover:text-blue-900" href="{{ route('password.request') }}">
+                        Mot de passe oublié ?
+                    </a>
+
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        Se connecter
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
+
+    <!-- JS pour toggle mot de passe -->
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+    </script>
 </x-guest-layout>

@@ -8,4 +8,17 @@ $classes = ($active ?? false)
 
 <a {{ $attributes->merge(['class' => $classes]) }}>
     {{ $slot }}
-</a>
+</a> 
+
+<!-- @props(['href', 'active'])
+
+@php
+$classes = $active ?? false
+            ? 'flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg'
+            : 'flex items-center px-4 py-2 text-sm font-medium text-indigo-200 hover:text-white hover:bg-indigo-600 rounded-lg transition-colors duration-200';
+@endphp
+
+
+<a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
+    {{ $slot }}
+</a> -->

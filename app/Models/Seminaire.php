@@ -11,7 +11,7 @@ class Seminaire extends Model
 
     protected $fillable = [
         'theme',
-        'date_presentation',
+        'date',
         'resume',
         'statut',
         'user_id',
